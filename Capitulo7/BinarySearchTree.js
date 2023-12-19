@@ -25,12 +25,22 @@ function BinarySearchTree() {
       node.left = insertNode(node.left, element);
       if (node.left !== null) {
         if (heightNode(node.left) - heightNode(node.right) > 1) {
+          if (element < node.left.key) {
+            node = rotationLL(node);
+          } else {
+            node = rotationLR(node);
+          }
         }
       }
     } else if (element > node.key) {
       node.right = insertNode(node.right, element);
       if (node.right !== null) {
         if (heightNode(node.right) - heightNode(node.left) > 1) {
+          if (element > node.right.key) {
+            node = rotationRR(node);
+          } else {
+            node = rotationRL(node);
+          }
         }
       }
     }
@@ -128,7 +138,7 @@ function BinarySearchTree() {
     }
   };
 
-  //Remover un nodo 
+  //Remover un nodo
   this.remove = function (key) {
     root = removeNode(root, key);
   }; //{1}
@@ -195,12 +205,24 @@ function BinarySearchTree() {
   };
 
   //Rotacion derecha +
-  let rotationLL = function(node) {
+  let rotationLL = function (node) {
     var tmp = node.left; //{1}
     node.left = tmp.right; //{2}
     tmp.right = node; //{3}
     return tmp;
-   }
+  };
+
+  //Doble rotacion derecha +
+  let rotationLR = function (node) {
+    node.left = rotationRR(node.left);
+    return rotationLL(node);
+  };
+
+  //Doble rotacion izquierda -
+  let rotationRL = function (node) {
+    node.right = rotationLL(node.right);
+    return rotationRR(node);
+  };
 }
 
 let tree = new BinarySearchTree();
