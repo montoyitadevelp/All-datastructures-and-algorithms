@@ -1,4 +1,4 @@
-function Dictionary() {
+export default function Dictionary() {
   //Properties
   let items = {};
 
@@ -89,3 +89,5 @@ weakMap.set(ob3, 'tyrion@email.com');
 console.log(weakMap.has(ob1));
 console.log(weakMap.get(ob3));
 weakMap.delete(ob2);
+
+

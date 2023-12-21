@@ -1,4 +1,4 @@
-function Queue() {
+export default function Queue() {
   let items = [];
   //properties and methods go here
 
