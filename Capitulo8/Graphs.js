@@ -1,5 +1,6 @@
 import Queue from '../Capitulo2/Queus/Queues.js';
 import Dictionary from '../Capitulo5/Dictionary/Dictionary.js';
+import Stack from '../Capitulo1/Stack/Stack.js';
 
 function Graph() {
   let vertices = []; //{1}
@@ -42,8 +43,8 @@ function Graph() {
     }
     return color;
   };
-  //Busqueda ampliamente, donde los vertices tienen distancia entre si
-  this.bfs = function (v, callback) {
+  //Busqueda exhaustiva
+  this.bfs = function (v) {
     let color = initializeColor(),
       queue = new Queue(),
       d = [], //{1}
@@ -75,6 +76,34 @@ function Graph() {
       predecessors: pred,
     };
   };
+
+  //Busqueda profunda
+  this.dfs = function (callback) {
+    let color = initializeColor(); //{1}
+    for (let i = 0; i < vertices.length; i++) {
+      //{2}
+      if (color[vertices[i]] === 'white') {
+        //{3}
+        dfsVisit(vertices[i], color, callback); //{4}
+      }
+    }
+  };
+  let dfsVisit = function (u, color, callback) {
+    color[u] = 'grey'; //{5}
+    if (callback) {
+      callback(u);
+    }
+    let neighbors = adjList.get(u); //{7}
+    for (let i = 0; i < neighbors.length; i++) {
+      //{8}
+      let w = neighbors[i]; //{9}
+      if (color[w] === 'white') {
+        //{10}
+        dfsVisit(w, color, callback); //{11}
+      }
+    }
+    color[u] = 'black'; //{12}
+  };
 }
 
 let graph = new Graph();
@@ -102,3 +131,23 @@ graph.bfs(myVertices[0], printNode);
 
 let shortestPathA = graph.bfs(myVertices[0]);
 console.log(shortestPathA);
+
+//Encontrando las rutas cortas de BFS
+let fromVertex = myVertices[0]; //{9}
+for (let i = 1; i < myVertices.length; i++) {
+  //{10}
+  let toVertex = myVertices[i], //{11}
+    path = new Stack(); //{12}
+  for (let v = toVertex; v !== fromVertex; v = shortestPathA.predecessors[v]) {
+    //{13}
+    path.push(v); //{14}
+  }
+  path.push(fromVertex); //{15}
+  let s = path.pop(); //{16}
+  while (!path.isEmpty()) {
+    //{17}
+    s += ' - ' + path.pop(); //{18}
+  }
+  console.log(s); //{19}
+}
+graph.dfs(printNode)
