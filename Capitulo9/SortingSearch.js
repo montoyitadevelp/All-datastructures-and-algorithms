@@ -145,6 +145,43 @@ function ArrayList() {
     }
     return i;
   };
+
+  this.quickSort = function () {
+    quick(array, 0, array.length - 1);
+  };
+
+  this.heapSort = function () {
+    let heapSize = array.length;
+    buildHeap(array); //{1}
+    while (heapSize > 1) {
+      heapSize--;
+      swap(array, 0, heapSize); //{2}
+      heapify(array, heapSize, 0); //{3}
+    }
+  };
+
+  let buildHeap = function (array) {
+    let heapSize = array.length;
+    for (let i = Math.floor(array.length / 2); i >= 0; i--) {
+      heapify(array, heapSize, i);
+    }
+  };
+
+  let heapify = function (array, heapSize, i) {
+    let left = i * 2 + 1,
+      right = i * 2 + 2,
+      largest = i;
+    if (left < heapSize && array[left] > array[largest]) {
+      largest = left;
+    }
+    if (right < heapSize && array[right] > array[largest]) {
+      largest = right;
+    }
+    if (largest !== i) {
+      swap(array, i, largest);
+      heapify(array, heapSize, largest);
+    }
+  };
 }
 
 function createNonSortedArray(size) {
