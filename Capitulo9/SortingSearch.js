@@ -182,6 +182,39 @@ function ArrayList() {
       heapify(array, heapSize, largest);
     }
   };
+
+  this.sequentialSearch = function (item) {
+    for (let i = 0; i < array.length; i++) {
+      //{1}
+      if (item === array[i]) {
+        //{2}
+        return i;
+      }
+      return -1;
+    }
+  };
+  this.binarySearch = function (item) {
+    this.quickSort(); //{1}
+    let low = 0, //{2}
+      high = array.length - 1, //{3}
+      mid,
+      element;
+    while (low <= high) {
+      //{4}
+      mid = Math.floor((low + high) / 2); //{5}
+      element = array[mid]; //{6}
+      if (element < item) {
+        //{7}
+        low = mid + 1; //{8}
+      } else if (element > item) {
+        //{9}
+        high = mid - 1; //{10}
+      } else {
+        return mid; //{11}
+      }
+    }
+    return -1; //{12}
+  };
 }
 
 function createNonSortedArray(size) {
@@ -203,3 +236,4 @@ array.selectionSort();
 console.log(array.toString());
 array.insertionSort();
 console.log(array.toString());
+
