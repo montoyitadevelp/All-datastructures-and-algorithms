@@ -106,7 +106,7 @@ function knapSack(capacity, weights, values, n) {
       }
     }
   }
-  findValues(n, capacity, kS, weights, values)
+  findValues(n, capacity, kS, weights, values);
   return kS[n][capacity]; //{6}
 }
 
@@ -132,11 +132,67 @@ function findValues(n, capacity, kS, weights, values) {
   }
 }
 
+function lcs(wordX, wordY) {
+  var m = wordX.length,
+    n = wordY.length,
+    l = [],
+    i,
+    j,
+    a,
+    b;
+  for (i = 0; i <= m; ++i) {
+    l[i] = [];
+    //{1}
+    for (j = 0; j <= n; ++j) {
+      l[i][j] = 0;
+      //{2}
+    }
+  }
+  for (i = 0; i <= m; i++) {
+    for (j = 0; j <= n; j++) {
+      if (i == 0 || j == 0) {
+        l[i][j] = 0;
+      } else if (wordX[i - 1] == wordY[j - 1]) {
+        l[i][j] = l[i - 1][j - 1] + 1;
+        //{3}
+      } else {
+        a = l[i - 1][j];
+        b = l[i][j - 1];
+        l[i][j] = a > b ? a : b; //max(a,b)
+        //{4}
+      }
+    }
+  }
+
+  //{5}
+  return l[m][n];
+}
+
+function printSolution(solution, l, wordX, wordY, m, n) {
+  let a = m,
+    b = n,
+    i,
+    j,
+    x = solution[a][b],
+    answer = '';
+  while (x !== '0') {
+    if (solution[a][b] === 'diagonal') {
+      answer = wordX[a - 1] + answer;
+      a--;
+      b--;
+    } else if (solution[a][b] === 'left') {
+      b--;
+    } else if (solution[a][b] === 'top') {
+      a--;
+    }
+    x = solution[a][b];
+  }
+  console.log('lcs: ' + answer);
+}
+
 let values = [3, 4, 5],
   weights = [2, 3, 4],
   capacity = 5,
   n = values.length;
 console.log(knapSack(capacity, weights, values, n));
-
-
-
+console.log(lcs('AGGTAB', 'GXTXAYB'));
