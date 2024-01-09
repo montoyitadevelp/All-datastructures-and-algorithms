@@ -42,7 +42,7 @@ function fib(num) {
 
 console.log(fib(3));
 
-function MinCoinChange(coinsAmount) {
+/* function MinCoinChange(coinsAmount) {
   let coins = coinsAmount; //{1}
   let cache = {}; //{2}
   this.makeChange = function (amount) {
@@ -79,7 +79,7 @@ function MinCoinChange(coinsAmount) {
 }
 
 let minCoinChange = new MinCoinChange([1, 5, 10, 25]);
-console.log(minCoinChange.makeChange(36));
+console.log(minCoinChange.makeChange(36)); */
 
 function knapSack(capacity, weights, values, n) {
   let i,
@@ -190,9 +190,75 @@ function printSolution(solution, l, wordX, wordY, m, n) {
   console.log('lcs: ' + answer);
 }
 
+function matrixChainOrder(p, n) {
+  let i,
+    j,
+    k,
+    l,
+    q,
+    m = [],
+    s = [];
+  for (i = 0; i <= n; i++) {
+    s[i] = [];
+    for (j = 0; j <= n; j++) {
+      s[i][j] = 0;
+    }
+  }
+  for (i = 1; i <= n; i++) {
+    m[i] = [];
+    m[i][i] = 0;
+  }
+  for (l = 2; l < n; l++) {
+    for (i = 1; i <= n - l + 1; i++) {
+      j = i + l - 1;
+      m[i][j] = Number.MAX_SAFE_INTEGER;
+      for (k = i; k <= j - 1; k++) {
+        q = m[i][k] + m[k + 1][j] + p[i - 1] * p[k] * p[j]; //{1}
+        if (q < m[i][j]) {
+          m[i][j] = q;
+          s[i][j] = k;
+          //{2}
+        }
+      }
+    }
+  }
+  //{3}
+  return m[1][n - 1];
+}
+function MinCoinChange(coinsParameter) {
+ let coins = coinsParameter; //{1}
+  this.makeChange = function (amount) {
+    let change = [],
+      total = 0;
+    for (let i = coins.length; i >= 0; i--) {
+      //{2}
+      let coin = coins[i];
+      while (total + coin <= amount) {
+        //{3}
+        change.push(coin); //{4}
+        total += coin; //{5}
+      }
+    }
+    return change;
+  };
+}
+
 let values = [3, 4, 5],
   weights = [2, 3, 4],
   capacity = 5,
   n = values.length;
 console.log(knapSack(capacity, weights, values, n));
 console.log(lcs('AGGTAB', 'GXTXAYB'));
+function printOptimalParenthesis(s, i, j) {
+  if (i == j) {
+    console.log('A[' + i + ']');
+  } else {
+    console.log('(');
+    printOptimalParenthesis(s, i, s[i][j]);
+    printOptimalParenthesis(s, s[i][j] + 1, j);
+    console.log(')');
+  }
+}
+
+let minCoinChange = new MinCoinChange([1, 5, 10, 25]);
+console.log(minCoinChange.makeChange(36));
