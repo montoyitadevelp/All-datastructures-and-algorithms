@@ -226,7 +226,7 @@ function matrixChainOrder(p, n) {
   return m[1][n - 1];
 }
 function MinCoinChange(coinsParameter) {
- let coins = coinsParameter; //{1}
+  let coins = coinsParameter; //{1}
   this.makeChange = function (amount) {
     let change = [],
       total = 0;
@@ -241,6 +241,26 @@ function MinCoinChange(coinsParameter) {
     }
     return change;
   };
+}
+
+function knapSack(capacity, values, weights) {
+  let n = values.length,
+    load = 0,
+    i = 0,
+    val = 0;
+  for (i = 0; i < n && load < capacity; i++) {
+    //{1}
+    if (weights[i] <= capacity - load) {
+      //{2}
+      val += values[i];
+      load += weights[i];
+    } else {
+      let r = (capacity - load) / weights[i]; //{3}
+      val += r * values[i];
+      load += weights[i];
+    }
+  }
+  return n;
 }
 
 let values = [3, 4, 5],
@@ -262,3 +282,37 @@ function printOptimalParenthesis(s, i, j) {
 
 let minCoinChange = new MinCoinChange([1, 5, 10, 25]);
 console.log(minCoinChange.makeChange(36));
+
+//Programación imperativa
+let printArray = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    console.log(array[i]);
+  }
+};
+printArray([1, 2, 3, 4, 5]);
+
+//Programación funcional
+let forEach = function (array, action) {
+  for (var i = 0; i < array.length; i++) {
+    action(array[i]);
+  }
+};
+
+let logItem = function (item) {
+  console.log(item);
+};
+
+let findMinArray = function (array) {
+  let minValue = array[0];
+  for (let i = 1; i < array.length; i++) {
+    if (minValue > array[i]) {
+      minValue = array[i];
+    }
+  }
+  return minValue
+};
+
+
+
+forEach([1, 2, 3, 4, 5], logItem);
+console.log(findMinArray([8,6,4,5,9])); 
