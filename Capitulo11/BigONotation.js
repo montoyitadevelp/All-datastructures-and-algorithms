@@ -27,6 +27,8 @@ function swap(array, index1, index2) {
   array[index2] = aux;
 }
 
+
+//Complexity of O(n^2) quadratic, toma n operaciones (Pueden ser mas de 1000 elevado a la 2)
 function bubbleSort(array) {
   var length = array.length;
   var cost = 0;
