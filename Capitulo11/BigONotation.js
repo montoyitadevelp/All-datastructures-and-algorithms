@@ -20,3 +20,30 @@ function sequentialSearch(array, item) {
 }
 
 sequentialSearch([1, 2, 3, 4, 5], 3)
+
+function swap(array, index1, index2) {
+  let aux = array[index1];
+  array[index1] = array[index2];
+  array[index2] = aux;
+}
+
+function bubbleSort(array) {
+  var length = array.length;
+  var cost = 0;
+  for (var i = 0; i < length; i++) { //{1}
+    cost++;
+    for (var j = 0; j < length - 1; j++) { //{2}
+      cost++;
+      if (array[j] > array[j + 1]) {
+        swap(array, j, j + 1);
+      }
+    }
+  }
+  console.log('cost for bubbleSort with input size ' + length + 'is ' + cost);
+
+}
+
+bubbleSort(Array(100));
+swap([1, 2, 3, 4, 5], 0, 4)
+
+
